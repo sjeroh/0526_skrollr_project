@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+
+  <div class="text">0</div>
+  <div class="fixed-bg" data-0="background-color:rgb(17, 5, 44);" data-500="background-color:rgb(244, 59, 134);"
+    data-1000="background-color:rgb(255, 228, 89); width:100%; left:0%;"
+    data-2000="width:60%; left:20%;">
+  </div>
+  <div class="main">
+    <div class="cover">
+      <div class="first-parallel"></div>
+    </div>
+    <div class="cover">
+      <div class="second-parallel"></div>
+    </div>
+  </div>
+
+
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/skoller/2.2.0/skoller.min.js"></script> -->
+  <script src="js/skrollr.min.js"></script>
+  <script>
+      var s = skrollr.init();
+
+    let text = document.querySelector('.text')
+    window.addEventListener('scroll', function () {
+      let wScroll = window.pageYOffset;
+      console.log(parseInt(wScroll))
+      text.innerHTML = parseInt(wScroll)
+    })
+
+
+    let pTag1 = document.querySelector('.first-parallel')
+    let pTag2 = document.querySelector('.second-parallel')
+
+    // let textArr1 = 'CAUTION STOP CAUTION STOP CAUTION STOP CAUTION STOP'.split(" "); //띄워쓰기를 기준으로 잘라서 배열
+    let textArr1 = 'CAUTION STOP CAUTION STOP CAUTION STOP CAUTION STOP'.split(" "); //띄워쓰기를 기준으로 잘라서 배열
+    // console.log(textArr1)
+
+    let textArr2 = 'WARNING DANGER WARNING DANGER WARNING DANGER WARNING DANGER'.split(' ');
+    // console.log(textArr2)
+
+    let warn = '<i class="fas fa-exclamation-triangle"></i>'
+
+    // let arr=[];
+    // arr.push(...textArr1);
+    // console.log(arr)
+
+    let count1 = 0;
+    let count2 = 0;
+
+
+    initTexts(pTag1, textArr1)
+    initTexts(pTag2, textArr2)
+
+    function initTexts(element, textArry) {
+      textArry.push(...textArry) //8개의 배열에 동일한 배열을 복사하여 배열뒤에 넣음 (16개)
+      // console.log(textArry)
+      for (let i = 0; i < textArry.length; i++) {
+        // element.innerHTML = warn
+        element.innerHTML += textArry[i] + '\u00A0\u00A0\u00A0';
+        // element.insertAdjacentHTML('afterbegin',textArry[i],warn);
+        
+        // element.innerHTML +=`<i class="fas fa-exclamation-triangle"></i>`;
+      }
+
+      //    element.innerHTML +=`${textArry[i]}\u00A0\u00A0\u00A0`;
+      //<i class="fas fa-exclamation-triangle"></i>
+    }
+
+    //------------------------글자입력
+
+    function animate() {
+      count1++;
+      count2++;
+      // console.log(count1)
+
+      count1 = marqueeText(count1, pTag1, -1)
+      count2 = marqueeText(count2, pTag2, 1)
+
+      window.requestAnimationFrame(animate)
+      // animate();
+
+    }
+
+    function marqueeText(count, element, direction) {
+      //console.log(element.scrollWidth)
+      //scrollWidth ==> 보이지 않는 공간일지라도 스크롤해서 확인 할 수 있는 공간까지의 넓이, 전체 넓이
+      if (count > element.scrollWidth / 2) {
+        count = 0;
+        element.style.transform = `translate(0,0)`
+        
+      }
+      element.style.transform = `translate(${count * direction}px,0)`
+      console.log(count)
+      return count;
+    }
+
+    function scrollHandler() {
+      count1 += 25;
+      count2 += 25;
+    }
+
+    animate();
+
+    window.addEventListener('scroll', scrollHandler)
+  </script>
+
+
+
+</body>
+
+</html>
